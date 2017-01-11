@@ -1,20 +1,45 @@
 // ------------------------GOOGLE------------------------
-var directionsService = new google.maps.DirectionsService;
-var directionsDisplay = new google.maps.DirectionsRenderer;
-
+var mapOptions = {
+        	center:{lat: 39.8282, lng: -98.5795},
+			zoom: 4,
+			// mapTypeId: "hybrid"
+			styles: mapStyles
+        }
 var map = new google.maps.Map(
-	document.getElementById("map"),
-	{
-		center:{lat: 39.8282, lng: -98.5795},
-		zoom: 4,
-		// mapTypeId: "hybrid"
-		styles: mapStyles
-	}
-)
+    document.getElementById("map"),
+    mapOptions
+);
+
+var directionsService = new google.maps.DirectionsService();
+var directionsDisplay = new google.maps.DirectionsRenderer();
 directionsDisplay.setMap(map);
+
+
+
+function calcRoute() {
+  var request = {
+    origin: start,
+    destination: end,
+    travelMode: 'DRIVING'
+  };
+  directionsService.route(request, function(result, status) {
+    if (status == 'OK') {
+      	directionsDisplay.setDirections(result);
+    }
+  });
+}
+
+var start = "New York, NY"
+var end;
+        
+
+
+
+
 
 var infoWindow = new google.maps.InfoWindow({})
 var markers = [];
+var poIMarkers = [];
 
 function createMarker(city){
 	var icon = "http://i.imgur.com/eQ3pSuK.png"
@@ -37,6 +62,21 @@ function createMarker(city){
 	markers.push(marker);
 }
 
+function createPoI(place){
+	// console.log(place);
+	var infoWindow = new google.maps.InfoWindow({});
+	var marker = new google.maps.Marker({
+		map: map,
+		position: place.geometry.location,
+		icon: place.icon
+	});
+	google.maps.event.addListener(marker, "click", () =>{
+		infoWindow.setContent(place.name);
+		infoWindow.open(map, marker);
+	});
+	poIMarkers.push(markers);
+}
+
 
 // ------------------------REACT------------------------
 var string = "Hello, humans. I come in peace. Tell me information about your civilization. I am ready to Harvest."
@@ -45,10 +85,52 @@ var imageUrl = "https://www.base64-image.de/build/img/mr-base64-482fa1f767.png"
 class GoogleCity extends React.Component{
 	constructor(props){
 		super(props);
-		this.handleClickedCity = this.handleClickedCity.bind(this)
+		this.handleClickedCity = this.handleClickedCity.bind(this);
+		this.getDirections = this.getDirections.bind(this);
+		this.zoomToCity = this.zoomToCity.bind(this);
 	}
 
+	getDirections(){
+		end = this.props.cityObject.city;
+		calcRoute();
+	}
 
+	zoomToCity(event){
+		var zoomCityLatLon = new google.maps.LatLng(this.props.cityObject.lat, this.props.cityObject.lon);
+		map = new google.maps.Map(
+			document.getElementById("map"),
+			{
+				styles: mapStyles,
+				zoom:10,
+				center: zoomCityLatLon
+			}
+		)
+		directionsDisplay.setMap(map);
+		var service = new google.maps.places.PlacesService(map);
+		service.nearbySearch(
+		{
+			location: zoomCityLatLon,
+			radius: 500,
+			type: ["store"]
+		},
+		function(results, status){
+			// console.log(results);
+			if(status === "OK"){
+				results.map(function(currentPlace, index){
+					createPoI(currentPlace);
+				})
+			}
+		}
+	);
+		var bounds = new google.maps.LatLngBounds(zoomCityLatLon);
+		poIMarkers.map(function(currentMarker, index){
+			bounds.extend(currentMarker.getPosition());
+		})
+		map.fitBounds(bounds);
+
+		// console.log(bounds);
+
+	}
 
 	handleClickedCity(event){
 		console.log("Someone clicked on a city");
@@ -63,6 +145,8 @@ class GoogleCity extends React.Component{
 					<td className="city-name" onClick={this.handleClickedCity}>{this.props.cityObject.city}, {this.props.cityObject.state}</td>
 					<td className="city-land-area">{this.props.cityObject.landArea}</td>
 					<td className="city-population">{this.props.cityObject.yearEstimate}</td>
+					<td><button onClick={this.getDirections}>Get Directions</button></td>
+					<td><button onClick={this.zoomToCity}>Zoom</button></td>
 				</tr>
 		)
 	}
@@ -76,6 +160,8 @@ class Cities extends React.Component{
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.updateMarkers = this.updateMarkers.bind(this);
+		this.setEndingLocation = this.setEndingLocation.bind(this);
+		this.setStartingLocation = this.setStartingLocation.bind(this);
 	}
 
 	handleInputChange(event){
@@ -93,6 +179,14 @@ class Cities extends React.Component{
 		this.setState({
 			currentCities: filteredCitiesArray
 		})	
+	}
+
+	setStartingLocation(event){
+		start = event.target.value
+	}
+
+	setEndingLocation(event){
+		end = event.target.value
 	}
 
 	updateMarkers(event){
@@ -116,12 +210,12 @@ class Cities extends React.Component{
 				<img src={imageUrl} />
 				{string}
 				<form>
-					<input className="get-directions-start" type="text" placeholder="Start Location" onChange={this.handleDirectionInputChange} />
-					<input className="get-directions-end" type="text" placeholder="End Location" onChange={this.handleDirectionInputChange} />
-					<input className="get-directions-submit button" type="submit" value="Get Directions" />
+					<input className="get-directions-start" type="text" placeholder="Start Location" onChange={this.setStartingLocation} />
+					<input className="get-directions-end" type="text" placeholder="End Location" onChange={this.setEndingLocation} />
+					<input className="get-directions-submit button" type="submit" value="Get Directions" onChange={this.setEndingLocation} />
 				</form>
 				<form onSubmit={this.updateMarkers}>
-					<input type="text" onChange={this.handleInputChange} />
+					<input type="text" placeholder="Enter a city and Update Marker" onChange={this.handleInputChange} />
 					<input className="update-marker button" type="submit" value="Update Markers" />
 				</form>
 				<table className="table table-bordered table-striped">
