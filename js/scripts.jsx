@@ -34,7 +34,7 @@ function createMarker(city){
 
 
 // ------------------------REACT------------------------
-var string = "Hello, humans. I come in peace. Tell me information about your civilization."
+var string = "Hello, humans. I come in peace. Tell me information about your civilization. I am ready to Harvest."
 var imageUrl = "https://www.base64-image.de/build/img/mr-base64-482fa1f767.png"
 
 class GoogleCity extends React.Component{
@@ -70,10 +70,11 @@ class Cities extends React.Component{
 			currentCities: this.props.cities
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
+		this.updateMarkers = this.updateMarkers.bind(this);
 	}
 
 	handleInputChange(event){
-
+		
 		var newFilterValue = event.target.value;
 		// console.log(newFilterValue);
 		var filteredCitiesArray = [];
