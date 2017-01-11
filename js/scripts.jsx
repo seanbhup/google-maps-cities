@@ -32,11 +32,6 @@ function calcRoute() {
 var start = "New York, NY"
 var end;
         
-
-
-
-
-
 var infoWindow = new google.maps.InfoWindow({})
 var markers = [];
 var poIMarkers = [];
@@ -74,7 +69,7 @@ function createPoI(place){
 		infoWindow.setContent(place.name);
 		infoWindow.open(map, marker);
 	});
-	poIMarkers.push(markers);
+	poIMarkers.push(marker);
 }
 
 
@@ -122,9 +117,9 @@ class GoogleCity extends React.Component{
 			}
 		}
 	);
-		var bounds = new google.maps.LatLngBounds(zoomCityLatLon);
+		var bounds = new google.maps.LatLng(zoomCityLatLon);
 		poIMarkers.map(function(currentMarker, index){
-			bounds.extend(currentMarker.getPosition());
+			bounds.extend(currentMarker.getPosition);
 		})
 		map.fitBounds(bounds);
 
