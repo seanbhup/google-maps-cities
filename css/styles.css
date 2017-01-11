@@ -1,5 +1,5 @@
 html{
-	background-color: #9FA2B2;
+	background-color: #3C7A89;
 }
 
 #map{
@@ -8,6 +8,10 @@ html{
 	float: left;
 	border-radius: 50%;
 	box-shadow: 6px 10px 10px #124559;
+}
+
+#map:hover{
+	
 }
 
 /* .city-table{
@@ -54,7 +58,7 @@ th{
 	/* box-shadow: 3px 5px 5px black; */
 }
 
-.update-marker{
+.button{
 	border: 1px solid grey;
 	background-color: #16262E;
 	width: 150px;

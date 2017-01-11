@@ -1,12 +1,17 @@
 // ------------------------GOOGLE------------------------
+var directionsService = new google.maps.DirectionsService;
+var directionsDisplay = new google.maps.DirectionsRenderer;
+
 var map = new google.maps.Map(
 	document.getElementById("map"),
 	{
 		center:{lat: 39.8282, lng: -98.5795},
 		zoom: 4,
-		mapTypeId: "hybrid"
+		// mapTypeId: "hybrid"
+		styles: mapStyles
 	}
 )
+directionsDisplay.setMap(map);
 
 var infoWindow = new google.maps.InfoWindow({})
 var markers = [];
@@ -74,7 +79,7 @@ class Cities extends React.Component{
 	}
 
 	handleInputChange(event){
-		
+
 		var newFilterValue = event.target.value;
 		// console.log(newFilterValue);
 		var filteredCitiesArray = [];
@@ -110,9 +115,14 @@ class Cities extends React.Component{
 			<div>
 				<img src={imageUrl} />
 				{string}
+				<form>
+					<input className="get-directions-start" type="text" placeholder="Start Location" onChange={this.handleDirectionInputChange} />
+					<input className="get-directions-end" type="text" placeholder="End Location" onChange={this.handleDirectionInputChange} />
+					<input className="get-directions-submit button" type="submit" value="Get Directions" />
+				</form>
 				<form onSubmit={this.updateMarkers}>
 					<input type="text" onChange={this.handleInputChange} />
-					<input className="update-marker" type="submit" value="Update Markers" />
+					<input className="update-marker button" type="submit" value="Update Markers" />
 				</form>
 				<table className="table table-bordered table-striped">
 					<thead>
