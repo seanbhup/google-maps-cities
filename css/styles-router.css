@@ -2,69 +2,41 @@ html{
 	background-color: #3C7A89;
 }
 
+body{
+	background-color: #3C7A89 !important;
+}
+
 #map{
-	height:  100vh;
+	height:  75vh;
 	width: 100%;
-	float: left;
+	margin-top: 125px;
+	background-color: #3C7A89;
+	position: absolute;
+	/* float: left; */
 	/* border-radius: 50%; */
 	box-shadow: 6px 10px 10px #124559;
 }
 
-#map:hover{
-	
-}
-
-/* .city-table{
-	border: .5px solid #3D405B;
-	margin: 10px;
-	border-radius: 5px;
-	box-shadow: 3px 5px 5px #124559;
-} */
 #cities-container{
-	margin-left: 20px;
-	width: 25%;
-	opacity: .8;
-	position: absolute;
-	left: 100px;
+	margin-top: 0px;
+	/* width: 100%; */
+	/* margin-left: 20px; */
+	/* width: 25%; */
+	/* opacity: .8; */
+	/* position: absolute; */
+	/* left: 100px; */
 }
 
-.cities-table{
-	/* border: 2px solid black; */
-	/* box-shadow: 3px 5px 5px black; */
-	height: 90%;
-	background-color: white;
+.get-directions-wrapper{
+	margin-left: 40%;
+	margin-bottom: 50px;
 }
 
-.city-rank{
-	/* background-color: red; */
-	/* box-shadow: 3px 5px 5px black; */
+.input{
+	/* margin: 10px; */
 }
 
-.city-name{
-	/* background-color: green; */
-	/* box-shadow: 3px 5px 5px black; */
-}
 
-.city-land-area{
-	/* background-color: blue; */
-	/* box-shadow: 3px 5px 5px black; */
-}
-
-.city-population{
-	/* background-color: yellow; */
-	/* box-shadow: 3px 5px 5px black; */
-}
-
-.hello-human{
-	color: white;
-}
-
-th{
-	background-color: #2E4756;
-	color: white;
-	/* background-color: purple; */
-	/* box-shadow: 3px 5px 5px black; */
-}
 
 .button{
 	border: 1px solid grey;
@@ -79,6 +51,6 @@ th{
 }
 
 .active{
-	background-color: #9FA2B2;
+	background-color: black;
 	color: white;
 }

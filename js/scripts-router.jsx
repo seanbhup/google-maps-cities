@@ -141,8 +141,8 @@ class GoogleCity extends React.Component{
 					<td className="city-name" onClick={this.handleClickedCity}>{this.props.cityObject.city}, {this.props.cityObject.state}</td>
 					<td className="city-land-area">{this.props.cityObject.landArea}</td>
 					<td className="city-population">{this.props.cityObject.yearEstimate}</td>
-					<td><button onClick={this.getDirections}>Get Directions</button></td>
-					<td><button onClick={this.zoomToCity}>Zoom</button></td>
+					<td><button className="get-directions-button" onClick={this.getDirections}>Get Directions</button></td>
+					<td><button className="zoom-button" onClick={this.zoomToCity}>Zoom</button></td>
 				</tr>
 		)
 	}
@@ -214,14 +214,15 @@ class Cities extends React.Component{
 					<input type="text" placeholder="Enter a city and Update Marker" onBlur={this.handleInputChange} />
 					<input className="update-marker button" type="submit" value="Update Markers" />
 				</form>
-				<table className="cities-table">
+				<table className="table table-bordered table-hover table-responsive">
 					<thead>
 						<tr>
 							<th>Rank</th>
 							<th>City, State</th>
 							<th>Area</th>
 							<th>Population</th>
-							
+							<th>Directions</th>
+							<th>Zoom</th>
 						</tr>
 					</thead>
 					<tbody>
@@ -298,8 +299,9 @@ class BootstrapNavBar extends React.Component{
 ReactDOM.render(
 	<ReactRouter.Router>
 		<ReactRouter.Route path="/" component={App}>
-			<ReactRouter.IndexRoute component={Cities} cities={cities} />
-			<ReactRouter.Route path="/cities" component={Test} />
+			<ReactRouter.IndexRoute component={Cities} cities={cities}>
+				<ReactRouter.Route path="/cities" component={Test} />
+			</ReactRouter.IndexRoute>
 		</ReactRouter.Route>
 	</ReactRouter.Router>,
 	document.getElementById('cities-container')
