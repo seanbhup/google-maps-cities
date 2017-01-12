@@ -152,7 +152,7 @@ class Cities extends React.Component{
 	constructor(props){
 		super(props);
 		this.state = {
-			currentCities: this.props.cities
+			currentCities: this.props.routes[1].cities
 		};
 		this.handleInputChange = this.handleInputChange.bind(this);
 		this.updateMarkers = this.updateMarkers.bind(this);
@@ -166,7 +166,7 @@ class Cities extends React.Component{
 		// console.log(newFilterValue);
 		var filteredCitiesArray = [];
 		// Loop through the list of cities with .map
-		this.props.cities.map(function(currentCity, index){
+		this.props.routes[1].cities.map(function(currentCity, index){
 			if(currentCity.city.indexOf(newFilterValue) !== -1){
 				// hit! I dont care where it is, but its in the word
 				filteredCitiesArray.push(currentCity);
@@ -204,7 +204,7 @@ class Cities extends React.Component{
 		return(
 			<div>
 				<img src={imageUrl} />
-				{string}
+				<div className="hello-human">{string}</div>
 				<form>
 					<input className="get-directions-start" type="text" placeholder="Start Location" onChange={this.setStartingLocation} />
 					<input className="get-directions-end" type="text" placeholder="End Location" onChange={this.setEndingLocation} />
@@ -214,7 +214,7 @@ class Cities extends React.Component{
 					<input type="text" placeholder="Enter a city and Update Marker" onBlur={this.handleInputChange} />
 					<input className="update-marker button" type="submit" value="Update Markers" />
 				</form>
-				<table className="table table-bordered table-striped">
+				<table className="cities-table">
 					<thead>
 						<tr>
 							<th>Rank</th>
@@ -229,6 +229,50 @@ class Cities extends React.Component{
 					</tbody>
 				</table>
 			</div>
+		)
+	}
+}
+
+function Test(props){
+	return(
+		<h1>This is the Test route</h1>
+	)
+}
+
+class App extends React.Component{
+	constructor(props){
+	super(props);
+	}
+
+	render(){
+
+		return(
+			<div>
+				<BootstrapNavBar />
+				{this.props.children}
+			</div>
+		)
+	}
+}
+
+class BootstrapNavBar extends React.Component{
+	constructor(props){
+	super(props);
+	}
+
+	render(){
+		return(
+			<nav className="navbar navbar-default">
+ 				<div className="container-fluid">
+  					<div className="navbar-header">
+     					<a className="navbar-brand" href="#">Google Maps Router</a>
+   					</div>
+   					<ul className="nav navbar-nav">
+   						<li><ReactRouter.IndexLink to="/" activeClassName="active">Home</ReactRouter.IndexLink></li>
+   						<li><ReactRouter.Link to="cities" activeClassName="active">Cities</ReactRouter.Link></li>
+  					</ul>
+ </div>
+</nav>
 		)
 	}
 }
@@ -252,6 +296,11 @@ class Cities extends React.Component{
 // });
 // --------------------------------------------------------
 ReactDOM.render(
-	<Cities cities={cities} />,
+	<ReactRouter.Router>
+		<ReactRouter.Route path="/" component={App}>
+			<ReactRouter.IndexRoute component={Cities} cities={cities} />
+			<ReactRouter.Route path="/cities" component={Test} />
+		</ReactRouter.Route>
+	</ReactRouter.Router>,
 	document.getElementById('cities-container')
 )
