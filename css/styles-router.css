@@ -27,7 +27,7 @@ body{
 	/* left: 100px; */
 }
 
-.get-directions-wrapper{
+.get-directions-wrapper, .locate-wrapper{
 	margin-left: 40%;
 	margin-bottom: 50px;
 }

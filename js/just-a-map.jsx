@@ -40,6 +40,7 @@ class Navbar extends React.Component{
    					<ul className="nav navbar-nav">
    						<li><ReactRouter.IndexLink to="/" activeClassName="active">Home</ReactRouter.IndexLink></li>
    						<li><ReactRouter.Link to="directions" activeClassName="active">Directions</ReactRouter.Link></li>
+   						<li><ReactRouter.Link to="locate" activeClassName="active">Locate</ReactRouter.Link></li>
   					</ul>
  				</div>
 			</nav>
@@ -58,6 +59,21 @@ class Directions extends React.Component{
 				<input className="input start-input" type="text" placeholder="Start" />
 				<input className="input end-input" type="text" placeholder="End" />
 				<input className="input get-directions-button" type="submit" value="Get Directions" />
+			</div>
+		)
+	}
+}
+
+class Locate extends React.Component{
+	constructor(props){
+		super(props);
+	}
+
+	render(){
+		return(
+			<div className="locate-wrapper">
+				<input className="input input-locate" type="text" placeholder="Name a Location" />
+				<input className="input input-locate-button" type="submit" value="Locate" />
 			</div>
 		)
 	}
@@ -87,6 +103,7 @@ ReactDOM.render(
 		<ReactRouter.Route path="/" component={App}>
 			<ReactRouter.IndexRoute component={Map} map={map} />
 				<ReactRouter.Route path="/directions" component={Directions} />
+				<ReactRouter.Route path="/locate" component={Locate} />
 		</ReactRouter.Route>
 		
 	</ReactRouter.Router>,
