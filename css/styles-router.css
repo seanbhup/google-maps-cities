@@ -51,6 +51,6 @@ body{
 }
 
 .active{
-	background-color: black;
-	color: white;
+	background-color: white !important;
+	color: black !important;
 }
